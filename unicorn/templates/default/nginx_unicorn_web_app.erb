@@ -57,6 +57,15 @@ server {
   location = /500.html {
     root <%= @application[:absolute_document_root] %>;
   }
+
+  # Cross domain webfont access
+  location ~* \.(?:ttf|ttc|otf|eot|woff|font.css)$ {
+    add_header 'Access-Control-Allow-Origin' '<%= @application[:domains].join(" ") %> <%= node[:hostname] %>';
+    add_header 'Access-Control-Allow-Methods' 'GET'
+    add_header 'Access-Control-Allow-Headers' 'x-requested-with'
+    add_header 'Access-Control-Max-Age' '3628800'
+    access_log off;
+  }
 }
 
 <% if @application[:ssl_support] %>
@@ -64,7 +73,7 @@ server {
   listen   443;
   server_name <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>-ssl.access.log;
-  
+
   ssl on;
   ssl_certificate /etc/nginx/ssl/<%= @application[:domains].first %>.crt;
   ssl_certificate_key /etc/nginx/ssl/<%= @application[:domains].first %>.key;
@@ -108,6 +117,15 @@ server {
   error_page 500 502 503 504 /500.html;
   location = /500.html {
     root <%= @application[:absolute_document_root] %>;
+  }
+
+  # Cross domain webfont access
+  location ~* \.(?:ttf|ttc|otf|eot|woff|font.css)$ {
+    add_header 'Access-Control-Allow-Origin' '<%= @application[:domains].join(" ") %> <%= node[:hostname] %>';
+    add_header 'Access-Control-Allow-Methods' 'GET'
+    add_header 'Access-Control-Allow-Headers' 'x-requested-with'
+    add_header 'Access-Control-Max-Age' '3628800'
+    access_log off;
   }
 }
 <% end %>
