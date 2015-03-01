@@ -60,7 +60,7 @@ server {
 
   # Cross domain webfont access
   location ~* \.(?:ttf|ttc|otf|eot|woff|font.css)$ {
-    add_header 'Access-Control-Allow-Origin' '<%= @application[:domains].join(" ") %> <%= node[:hostname] %>';
+    add_header 'Access-Control-Allow-Origin' '<%= a.map! { |k| "https://#{k}" }.join(" ")) %>';
     add_header 'Access-Control-Allow-Methods' 'GET';
     add_header 'Access-Control-Allow-Headers' 'x-requested-with';
     add_header 'Access-Control-Max-Age' '3628800';
@@ -121,7 +121,7 @@ server {
 
   # Cross domain webfont access
   location ~* \.(?:ttf|ttc|otf|eot|woff|font.css)$ {
-    add_header 'Access-Control-Allow-Origin' '<%= @application[:domains].join(" ") %> <%= node[:hostname] %>';
+    add_header 'Access-Control-Allow-Origin' '<%= a.map! { |k| "https://#{k}" }.join(" ")) %>';
     add_header 'Access-Control-Allow-Methods' 'GET';
     add_header 'Access-Control-Allow-Headers' 'x-requested-with';
     add_header 'Access-Control-Max-Age' '3628800';
