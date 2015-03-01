@@ -22,6 +22,8 @@ server {
     client_max_body_size <%= @application[:nginx][:client_max_body_size] %>;
   <% end %>
 
+  add_header 'Origin' "https://www.pinot.hk";
+
   location / {
     try_files $uri/index.html $uri/index.htm @unicorn;
   }
@@ -60,10 +62,9 @@ server {
 
   # Cross domain webfont access
   location ~* \.(?:ttf|ttc|otf|eot|woff|font.css)$ {
-    <% https_domains =  @application[:domains].map { |k| "https://#{k}" } %>
-    add_header 'Access-Control-Allow-Origin' '<%= https_domains.join(" ") %>';
-    add_header 'Access-Control-Allow-Methods' 'GET';
-    add_header 'Access-Control-Allow-Headers' 'x-requested-with';
+    add_header 'Access-Control-Allow-Origin' "https://www.pinot.hk";
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+    add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With';
     add_header 'Access-Control-Max-Age' '3628800';
     access_log off;
   }
@@ -89,6 +90,8 @@ server {
   <% if @application[:nginx] && @application[:nginx][:client_max_body_size] %>
     client_max_body_size <%= @application[:nginx][:client_max_body_size] %>;
   <% end %>
+
+  add_header 'Origin' "https://www.pinot.hk";
 
   location / {
     try_files $uri/index.html $uri/index.htm @unicorn;
@@ -122,10 +125,9 @@ server {
 
   # Cross domain webfont access
   location ~* \.(?:ttf|ttc|otf|eot|woff|font.css)$ {
-    <% https_domains =  @application[:domains].map { |k| "https://#{k}" } %>
-    add_header 'Access-Control-Allow-Origin' '<%= https_domains.join(" ") %>';
-    add_header 'Access-Control-Allow-Methods' 'GET';
-    add_header 'Access-Control-Allow-Headers' 'x-requested-with';
+    add_header 'Access-Control-Allow-Origin' "https://www.pinot.hk";
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+    add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With';
     add_header 'Access-Control-Max-Age' '3628800';
     access_log off;
   }
