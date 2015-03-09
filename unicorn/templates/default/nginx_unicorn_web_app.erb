@@ -58,11 +58,17 @@ server {
     root <%= @application[:absolute_document_root] %>;
   }
 
-  # Cross domain webfont access
-  location ~* \.(eot|ttf|woff)$ {
+  # Give static assets a far-future header and serve the pre-compressed version
+  # of the asset instead of compressing on the fly.
+  # And, cross domain webfont access
+  location ~ ^/(assets)/ {
+    gzip_static on;
+    expires     max;
+    add_header  Cache-Control public;
     add_header 'Access-Control-Allow-Origin' 'https://<%= @application[:domains].first %>';
     add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
     add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With';
+    break;
   }
 }
 
@@ -117,11 +123,17 @@ server {
     root <%= @application[:absolute_document_root] %>;
   }
 
-  # Cross domain webfont access
-  location ~* \.(eot|ttf|woff)$ {
+  # Give static assets a far-future header and serve the pre-compressed version
+  # of the asset instead of compressing on the fly.
+  # And, cross domain webfont access
+  location ~ ^/(assets)/ {
+    gzip_static on;
+    expires     max;
+    add_header  Cache-Control public;
     add_header 'Access-Control-Allow-Origin' 'https://<%= @application[:domains].first %>';
     add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
     add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With';
+    break;
   }
 }
 <% end %>
