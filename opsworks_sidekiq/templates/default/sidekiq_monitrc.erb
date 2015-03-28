@@ -7,7 +7,7 @@
 
   <% environments = '' %>
   <% @deploy[:environment_variables].each do |key, value| %>
-    <% environments += key + '=' + value + ' && ' %>
+    <% environments += key + '="' + value + '" && ' %>
   <% end %>
 
 check process sidekiq_<%= identifier %>
