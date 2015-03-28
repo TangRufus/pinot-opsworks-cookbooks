@@ -68,11 +68,9 @@ node[:deploy].each do |application, deploy|
         :deploy => deploy,
         :application => application,
         :workers => workers,
-        :syslog => node[:sidekiq][application][:syslog],
-        :environment => OpsWorks::Escape.escape_double_quotes(deploy[:environment_variables])
+        :syslog => node[:sidekiq][application][:syslog])
       })
       notifies :reload, resources(:service => "monit"), :immediately
     end
-
   end
 end
