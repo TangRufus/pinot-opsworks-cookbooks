@@ -5,7 +5,7 @@ node[:deploy].each do |application, deploy|
   end
 
   rails_env = deploy[:rails_env]
-  environment_variables  = deploy[:environment_variables].merge(rails_env: rails_env)
+  environment_variables  = deploy[:environment_variables].merge(RAILS_ENV: rails_env)
   current_path = deploy[:current_path]
 
   Chef::Log.info("Precompiling Rails assets with environment #{rails_env}")
