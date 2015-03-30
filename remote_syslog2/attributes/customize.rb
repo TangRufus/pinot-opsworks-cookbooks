@@ -14,4 +14,4 @@ normal['remote_syslog2']['config']['exclude_files'] = node[:papertrail][:exclude
 normal['remote_syslog2']['config']['exclude_patterns'] = node[:papertrail][:exclude_patterns].split(',')
 normal['remote_syslog2']['config']['hostname'] = node[:opsworks][:instance][:hostname]
 normal['remote_syslog2']['config']['destination']['host'] = node[:papertrail][:host]
-normal['remote_syslog2']['config']['destination']['port'] = node[:papertrail][:port]
+normal['remote_syslog2']['config']['destination']['port'] = node[:papertrail][:port].to_i
