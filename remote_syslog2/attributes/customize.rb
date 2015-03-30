@@ -7,11 +7,11 @@ node[:deploy].each do |application, deploy|
   rails_logs = "#{deploy[:deploy_to]}/shared/log/*.log"
   nginx_logs = "#{node[:nginx][:log_dir].to_s}/*.log"
 
-  normal['remote_syslog2']['config']['files'] = "[#{rails_logs}, #{nginx_logs}]"
+  normal['remote_syslog2']['config']['files'] = [rails_logs, nginx_logs]
 end
 
-normal['remote_syslog2']['config']['exclude_files'] = "[#{node[:papertrail][:exclude_files]}]"
-normal['remote_syslog2']['config']['exclude_patterns'] = "[#{node[:papertrail][:exclude__patterns]}]"
+normal['remote_syslog2']['config']['exclude_files'] = node[:papertrail][:exclude_files]
+normal['remote_syslog2']['config']['exclude_patterns'] = node[:papertrail][:exclude__patterns]
 normal['remote_syslog2']['config']['hostname'] = node[:opsworks][:instance][:hostname]
 normal['remote_syslog2']['config']['destination']['host'] = node[:papertrail][:host]
 normal['remote_syslog2']['config']['destination']['port'] = node[:papertrail][:port]
