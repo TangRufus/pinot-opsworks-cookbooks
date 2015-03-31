@@ -31,11 +31,14 @@ node[:deploy].each do |application, deploy|
 
     workers = node[:sidekiq][application].to_hash.reject {|k,v| k.to_s =~ /restart_command|syslog/ }
     config_directory = "#{deploy[:deploy_to]}/shared/config"
+    log_file = "#{deploy[:deploy_to]}/shared/log/sidekiq.log"
 
     workers.each do |worker, options|
 
       # Convert attribute classes to plain old ruby objects
       config = options[:config] ? options[:config].to_hash : {}
+      config[:log_file] = log_file
+
       config.each do |k, v|
         case v
         when Chef::Node::ImmutableArray
