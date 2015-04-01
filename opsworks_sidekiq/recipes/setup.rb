@@ -33,11 +33,8 @@ node[:deploy].each do |application, deploy|
     config_directory = "#{deploy[:deploy_to]}/shared/config"
 
     workers.each do |worker, options|
-      logfile = "#{deploy[:deploy_to]}/shared/log/sidekiq_#{worker}#{n+1}.log"
-
       # Convert attribute classes to plain old ruby objects
       config = options[:config] ? options[:config].to_hash : {}
-      config[:logfile] = logfile
 
       config.each do |k, v|
         case v
@@ -48,14 +45,16 @@ node[:deploy].each do |application, deploy|
         end
       end
 
-      # Generate YAML string
-      yaml = YAML::dump(config)
-
-      # Convert YAML string keys to symbol keys for sidekiq while preserving
-      # indentation. (queues: to :queues:)
-      yaml = yaml.gsub(/^(\s*)([^:][^\s]*):/,'\1:\2:')
-
       (options[:process_count] || 1).times do |n|
+        config[:logfile] = "#{deploy[:deploy_to]}/shared/log/sidekiq_#{worker}#{n+1}.log"
+
+        # Generate YAML string
+        yaml = YAML::dump(config)
+        # Convert YAML string keys to symbol keys for sidekiq while preserving
+        # indentation. (queues: to :queues:)
+        yaml = yaml.gsub(/^(\s*)([^:][^\s]*):/,'\1:\2:')
+
+
         file "#{config_directory}/sidekiq_#{worker}#{n+1}.yml" do
           mode 0644
           action :create
