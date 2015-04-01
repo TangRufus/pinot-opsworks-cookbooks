@@ -31,9 +31,9 @@ node[:deploy].each do |application, deploy|
 
     workers = node[:sidekiq][application].to_hash.reject {|k,v| k.to_s =~ /restart_command|syslog/ }
     config_directory = "#{deploy[:deploy_to]}/shared/config"
-    logfile = "#{deploy[:deploy_to]}/shared/log/sidekiq_#{worker}#{n+1}.log"
 
     workers.each do |worker, options|
+      logfile = "#{deploy[:deploy_to]}/shared/log/sidekiq_#{worker}#{n+1}.log"
 
       # Convert attribute classes to plain old ruby objects
       config = options[:config] ? options[:config].to_hash : {}
