@@ -17,3 +17,4 @@ normal['remote_syslog2']['config']['exclude_patterns'] = node[:papertrail][:excl
 normal['remote_syslog2']['config']['hostname'] = node[:opsworks][:instance][:hostname]
 normal['remote_syslog2']['config']['destination']['host'] = node[:papertrail][:host]
 normal['remote_syslog2']['config']['destination']['port'] = node[:papertrail][:port].to_i
+normal['remote_syslog2']['config']['destination']['protocol'] = node[:papertrail][:protocol]
