@@ -9,7 +9,7 @@ node[:deploy].each do |application, deploy|
   newrelic_logs = '/var/log/newrelic/*.log'
   logs = node[:papertrail][:logs]
 
-  normal['remote_syslog2']['config']['files'] = [rails_logs, nginx_logs, newrelic_logs, logs].reject!(&:nil?).reject!(&:empty?)
+  normal['remote_syslog2']['config']['files'] = [rails_logs, nginx_logs, newrelic_logs, logs].reject(&:nil?).reject(&:empty?)
 end
 
 normal['remote_syslog2']['config']['exclude_files'] = node[:papertrail][:exclude_files].split(',')
