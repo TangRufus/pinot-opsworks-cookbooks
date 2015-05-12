@@ -126,7 +126,7 @@ server {
     # If you don't find the filename in the static files
     # Then request it from the unicorn server
     if (!-f $request_filename) {
-      proxy_pass http://unicorn_<%= @application[:main_domain] %>';
+      proxy_pass http://unicorn_<%= @application[:domains].first %>;
       break;
     }
   }
